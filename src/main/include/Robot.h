@@ -13,7 +13,14 @@
 #include <ctre/phoenix6/TalonFX.hpp>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/PowerDistribution.h>
+#include <photon/PhotonCamera.h>
 
+#include <frc/TimedRobot.h>
+#include <frc/XboxController.h>
+
+#include "Constants.h"
+#include "VisionSim.h"
+#include "subsystems/CommandSwerveDrivetrain.h"
 using namespace ctre::phoenix6;
 using namespace ctre::phoenix6::hardware;
 
