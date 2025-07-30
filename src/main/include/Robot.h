@@ -13,6 +13,7 @@
 #include <ctre/phoenix6/TalonFX.hpp>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/PowerDistribution.h>
+
 #include <photon/PhotonCamera.h>
 
 #include <frc/TimedRobot.h>
@@ -75,22 +76,27 @@ private:
 
     std::optional<frc2::CommandPtr> m_autonomousCommand;
     RobotContainer m_container;
+    photon::PhotonCamera camera{constants::Vision::kCameraName};
+    TunerConstants TunerSwerveDrivetrain drivetrain{}; //I need help with this; I have absolutely no idea how to connect this
+    VisionSim vision{&camera};
+    frc::XboxController controller{0};
+    static constexpr double VISION_TURN_kP = 0.01;
 
 public:
     Robot();
+    void RobotInit() override;
     void RobotPeriodic() override;
+    void DisabledInit() override;
+    void DisabledPeriodic() override;
+    void DisabledExit() override;
     void AutonomousInit() override;
     void AutonomousPeriodic() override;
     void AutonomousExit() override;
     void TeleopInit() override;
     void TeleopPeriodic() override;
     void TeleopExit() override;
-    void DisabledInit() override;
-    void DisabledPeriodic() override;
-    void DisabledExit() override;
     void TestInit() override;
     void TestPeriodic() override;
     void TestExit() override;
-    void SimulationInit() override;
     void SimulationPeriodic() override;
 };
