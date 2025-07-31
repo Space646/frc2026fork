@@ -154,7 +154,7 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {
     double forward;
     double strafe;
-    double turn = 1.0;
+    double turn;
     bool targetVisible = false;
     double targetYaw = 0.0;
     auto results = camera.GetAllUnreadResults();
