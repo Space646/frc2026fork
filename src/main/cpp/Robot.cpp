@@ -154,32 +154,32 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {
     double forward;
     double strafe;
-    double turn = 0.0;
-    bool targetVisible = false;
-    double targetYaw = 0.0;
-    auto results = camera.GetAllUnreadResults();
-    if (results.size() > 0) {
-        // Camera processed a new frame since last
-        // Get the last one in the list.
-        auto result = results[results.size() - 1];
-        if (result.HasTargets()) {
-        // At least one AprilTag was seen by the camera
-        for (auto& target : result.GetTargets()) {
-            if (target.GetFiducialId() == 7) {
-            // Found Tag 7, record its information
-            targetYaw = target.GetYaw();
-            targetVisible = true;
-            }
-        }
-    }
-    if (targetVisible) {
-    // Driver wants auto-alignment to tag 7
-    // And, tag 7 is in sight, so we can turn toward it.
-    // Override the driver's turn command with an automatic one that turns
-    // toward the tag.
-    turn =
-        -1.0 * targetYaw * VISION_TURN_kP * constants::Swerve::kMaxAngularSpeed.value();
-    }
+    double turn = 1.0;
+    // bool targetVisible = false;
+    // double targetYaw = 0.0;
+    // auto results = camera.GetAllUnreadResults();
+    // if (results.size() > 0) {
+    //     // Camera processed a new frame since last
+    //     // Get the last one in the list.
+    //     auto result = results[results.size() - 1];
+    //     if (result.HasTargets()) {
+    //     // At least one AprilTag was seen by the camera
+    //     for (auto& target : result.GetTargets()) {
+    //         if (target.GetFiducialId() == 7) {
+    //         // Found Tag 7, record its information
+    //         targetYaw = target.GetYaw();
+    //         targetVisible = true;
+    //         }
+    //     }
+    // }
+    // if (targetVisible) {
+    // // Driver wants auto-alignment to tag 7
+    // // And, tag 7 is in sight, so we can turn toward it.
+    // // Override the driver's turn command with an automatic one that turns
+    // // toward the tag.
+    // turn =
+    //     -1.0 * targetYaw * VISION_TURN_kP * constants::Swerve::kMaxAngularSpeed.value();
+    // }
     auto velX = forward * 1_mps;
     auto velY = strafe * 1_mps;
     auto rot = turn * 1_rad_per_s;
