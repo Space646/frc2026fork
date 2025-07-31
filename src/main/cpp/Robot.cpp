@@ -159,9 +159,19 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
     // Calculate drivetrain commands from Joystick values
-    auto forward = 0.0;
-    auto strafe = 0.0;
-    auto turn = 0.0;
+    swerve::requests::FieldCentric drive = swerve::requests::FieldCentric{} // Add a 10% deadband
+        .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage);
+       // and Y is defined as to the left according to WPILib convention.
+
+        auto alignCommand = 
+        drivetrain.ApplyRequest([this, drive]() -> auto&& {
+            double forward = 0; // calculate using photon
+            double turn = 0; // calculate using photon
+            double strafe = 0; // calculate using photon
+            return drive.WithVelocityX(forward * 1)  // Drive forward with negative Y (forward)
+                .WithVelocityY(strafe * 1)  // Drive left with negative X (left)
+                .WithRotationalRate(turn * 2);  // Drive counterclockwise with negative X (left)
+        });
 
     bool targetVisible = false;
     double targetYaw = 0.0;
@@ -192,7 +202,7 @@ void Robot::TeleopPeriodic() {
         -1.0 * targetYaw * VISION_TURN_kP * constants::Swerve::kMaxAngularSpeed;
     }
     swerve::requests::FieldCentric drive = swerve::requests::FieldCentric{}
-        .WithDeadband(MaxSpeedConst * 0.1).WithRotationalDeadband(MaxAngularRateConst * 0.1) // Add a 10% deadband
+        .WithDeadband(1 * 1).WithRotationalDeadband(1 * 1) // Add a 10% deadband
         .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage);
        // and Y is defined as to the left according to WPILib convention.
     drivetrain.SetDefaultCommand(
