@@ -77,7 +77,7 @@ private:
     std::optional<frc2::CommandPtr> m_autonomousCommand;
     RobotContainer m_container;
     photon::PhotonCamera camera{constants::Vision::kCameraName};
-    TunerConstants TunerSwerveDrivetrain drivetrain{}; //I need help with this; I have absolutely no idea how to connect this
+    //TunerConstants TunerSwerveDrivetrain drivetrain{}; //I need help with this; I have absolutely no idea how to connect this
     VisionSim vision{&camera};
     frc::XboxController controller{0};
     static constexpr double VISION_TURN_kP = 0.01;
@@ -99,4 +99,5 @@ public:
     void TestPeriodic() override;
     void TestExit() override;
     void SimulationPeriodic() override;
+    void SimulationInit() override;
 };
