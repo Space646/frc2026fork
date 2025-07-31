@@ -152,6 +152,7 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
+    printf("Hello! I'm there!!\n");
     double forward;
     double strafe;
     double turn = 1.0;
@@ -187,6 +188,7 @@ void Robot::AutonomousPeriodic() {
         drive.WithVelocityX(velX)  // Drive forward with negative Y (forward)
         .WithVelocityY(velY)  // Drive left with negative X (left)
         .WithRotationalRate(rot));  // Drive counterclockwise with negative X (left)
+    printf("I'm still there!!\n");
 }
 
 
