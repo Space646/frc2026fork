@@ -15,14 +15,14 @@ void RobotContainer::ConfigureBindings()
 {
     // Note that X is defined as forward according to WPILib convention,
     // and Y is defined as to the left according to WPILib convention.
-    drivetrain.SetDefaultCommand(
-        // Drivetrain will execute this command periodically
-        drivetrain.ApplyRequest([this]() -> auto&& {
-            return drive.WithVelocityX(-joystick.GetLeftY() * MaxSpeedConst)  // Drive forward with negative Y (forward)
-                .WithVelocityY(-joystick.GetLeftX() * MaxSpeedConst)  // Drive left with negative X (left)
-                .WithRotationalRate(-joystick.GetRightX() * MaxAngularRateConst);  // Drive counterclockwise with negative X (left)
-        })
-    );
+    // drivetrain.SetDefaultCommand(
+    //     // Drivetrain will execute this command periodically
+    //     drivetrain.ApplyRequest([this]() -> auto&& {
+    //         return drive.WithVelocityX(-joystick.GetLeftY() * MaxSpeedConst)  // Drive forward with negative Y (forward)
+    //             .WithVelocityY(-joystick.GetLeftX() * MaxSpeedConst)  // Drive left with negative X (left)
+    //             .WithRotationalRate(-joystick.GetRightX() * MaxAngularRateConst);  // Drive counterclockwise with negative X (left)
+    //     })
+    // );
 
     // Idle while the robot is disabled. This ensures the configured
     // neutral mode is applied to the drive motors while disabled.
