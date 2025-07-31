@@ -56,8 +56,8 @@ inline constexpr units::meter_t kTrackWidth{18.5_in};
 inline constexpr units::meter_t kTrackLength{18.5_in};
 inline constexpr units::meter_t kRobotWidth{25_in + 3.25_in * 2};
 inline constexpr units::meter_t kRobotLength{25_in + 3.25_in * 2};
-inline constexpr units::meters_per_second_t kMaxLinearSpeed{15.5_fps};
-inline constexpr units::radians_per_second_t kMaxAngularSpeed{720_deg_per_s};
+inline constexpr units::meters_per_second_t kMaxLinearSpeed{5.41_mps};
+inline constexpr units::radians_per_second_t kMaxAngularSpeed{0.75_rad_per_s};  // 3/4 of a rotation per second
 inline constexpr units::meter_t kWheelDiameter{4_in};
 inline constexpr units::meter_t kWheelCircumference{kWheelDiameter *
                                                     std::numbers::pi};

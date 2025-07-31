@@ -9,6 +9,10 @@
 #include <ctre/phoenix6/swerve/impl/SwerveModuleImpl.hpp>
 #include <ctre/phoenix6/Pigeon2.hpp>
 #include "RobotContainer.h"
+#include <frc2/command/Commands.h>
+swerve::requests::FieldCentric drive = swerve::requests::FieldCentric{}
+        .WithDeadband(5.41_mps * 0.1).WithRotationalDeadband(0.75_tps * 0.1) // Add a 10% deadband
+        .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage);
 Robot::Robot() {
     /* Configure CANdle */
     configs::CANdleConfiguration cfg{};
@@ -147,7 +151,46 @@ void Robot::AutonomousInit() {
     }
 }
 
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousPeriodic() {
+    double forward;
+    double strafe;
+    double turn;
+    bool targetVisible = false;
+    double targetYaw = 0.0;
+    auto results = camera.GetAllUnreadResults();
+    if (results.size() > 0) {
+        // Camera processed a new frame since last
+        // Get the last one in the list.
+        auto result = results[results.size() - 1];
+        if (result.HasTargets()) {
+        // At least one AprilTag was seen by the camera
+        for (auto& target : result.GetTargets()) {
+            if (target.GetFiducialId() == 7) {
+            // Found Tag 7, record its information
+            targetYaw = target.GetYaw();
+            targetVisible = true;
+            }
+        }
+    }
+    if (targetVisible) {
+    // Driver wants auto-alignment to tag 7
+    // And, tag 7 is in sight, so we can turn toward it.
+    // Override the driver's turn command with an automatic one that turns
+    // toward the tag.
+    turn =
+        -1.0 * targetYaw * VISION_TURN_kP * constants::Swerve::kMaxAngularSpeed.value();
+  }
+    drivetrain.SetDefaultCommand(
+        // Drivetrain will execute this command periodically
+        drivetrain.ApplyRequest([this, forward, strafe, turn]() -> auto&& {
+            return drive.WithVelocityX(forward.value())  // Drive forward with negative Y (forward)
+                .WithVelocityY(strafe.value())  // Drive left with negative X (left)
+                .WithRotationalRate(turn.value());  // Drive counterclockwise with negative X (left)
+        })
+    );
+}
+
+}
 void Robot::AutonomousExit() {}
 
 void Robot::TeleopInit() {
