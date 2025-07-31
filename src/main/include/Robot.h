@@ -77,14 +77,13 @@ private:
     std::optional<frc2::CommandPtr> m_autonomousCommand;
     RobotContainer m_container;
     photon::PhotonCamera camera{constants::Vision::kCameraName};
-    subsystems::CommandSwerveDrivetrain drivetrain = subsystems::TunerConstants::CreateDrivetrain(); //I need help with this; I have absolutely no idea how to connect this
+    subsystems::CommandSwerveDrivetrain drivetrain = TunerConstants::CreateDrivetrain(); //I need help with this; I have absolutely no idea how to connect this
     VisionSim vision{&camera};
     frc::XboxController controller{0};
     static constexpr double VISION_TURN_kP = 0.01;
 
 public:
     Robot();
-    void RobotInit() override;
     void RobotPeriodic() override;
     void DisabledInit() override;
     void DisabledPeriodic() override;
