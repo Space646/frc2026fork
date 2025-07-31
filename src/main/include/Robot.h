@@ -18,7 +18,7 @@
 
 #include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
-
+#include <generated/TunerConstants.h>
 #include "Constants.h"
 #include "VisionSim.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
@@ -77,7 +77,7 @@ private:
     std::optional<frc2::CommandPtr> m_autonomousCommand;
     RobotContainer m_container;
     photon::PhotonCamera camera{constants::Vision::kCameraName};
-    //TunerConstants TunerSwerveDrivetrain drivetrain{}; //I need help with this; I have absolutely no idea how to connect this
+    subsystems::CommandSwerveDrivetrain drivetrain = subsystems::TunerConstants::CreateDrivetrain(); //I need help with this; I have absolutely no idea how to connect this
     VisionSim vision{&camera};
     frc::XboxController controller{0};
     static constexpr double VISION_TURN_kP = 0.01;

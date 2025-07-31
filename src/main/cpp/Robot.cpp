@@ -4,7 +4,7 @@
 
 #include "Robot.h"
 #include <frc2/command/CommandScheduler.h>
-
+#include <../include/generated/TunerConstants.h>
 Robot::Robot() {
     /* Configure CANdle */
     configs::CANdleConfiguration cfg{};
