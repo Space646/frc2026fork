@@ -19,13 +19,13 @@
 #include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
 #include <generated/TunerConstants.h>
-#include "Constants.h"
 #include "VisionSim.h"
 #include "subsystems/CommandSwerveDrivetrain.h"
+
 using namespace ctre::phoenix6;
 using namespace ctre::phoenix6::hardware;
 
-
+ctre::phoenix6::hardware::Pigeon2 pigeon2{13};
 class Robot : public frc::TimedRobot {
 private:
     using RGBWColor = ctre::phoenix6::signals::RGBWColor;

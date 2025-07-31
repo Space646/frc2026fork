@@ -12,19 +12,19 @@
 
 class RobotContainer {
 private:
-    units::meters_per_second_t MaxSpeed = TunerConstants::kSpeedAt12Volts; // kSpeedAt12Volts desired top speed
-    units::radians_per_second_t MaxAngularRate = 0.75_tps; // 3/4 of a rotation per second max angular velocity
+    units::meters_per_second_t MaxSpeedConst = TunerConstants::kSpeedAt12Volts; // kSpeedAt12Volts desired top speed
+    units::radians_per_second_t MaxAngularRateConst = 0.75_tps; // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     swerve::requests::FieldCentric drive = swerve::requests::FieldCentric{}
-        .WithDeadband(MaxSpeed * 0.1).WithRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+        .WithDeadband(MaxSpeedConst * 0.1).WithRotationalDeadband(MaxAngularRateConst * 0.1) // Add a 10% deadband
         .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage); // Use open-loop control for drive motors
     swerve::requests::SwerveDriveBrake brake{};
     swerve::requests::PointWheelsAt point{};
 
     /* Note: This must be constructed before the drivetrain, otherwise we need to
      *       define a destructor to un-register the telemetry from the drivetrain */
-    Telemetry logger{MaxSpeed};
+    Telemetry logger{MaxSpeedConst};
 
     frc2::CommandPS4Controller joystick{0};
 

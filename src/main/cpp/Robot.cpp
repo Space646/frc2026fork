@@ -5,6 +5,10 @@
 #include "Robot.h"
 #include <frc2/command/CommandScheduler.h>
 #include <generated/TunerConstants.h>
+#include <frc/kinematics/ChassisSpeeds.h>
+#include <ctre/phoenix6/swerve/impl/SwerveModuleImpl.hpp>
+#include <ctre/phoenix6/Pigeon2.hpp>
+#include "RobotContainer.h"
 Robot::Robot() {
     /* Configure CANdle */
     configs::CANdleConfiguration cfg{};
@@ -153,14 +157,11 @@ void Robot::TeleopInit() {
     m_orchestra.Play();
     }
 
-    void Robot::TeleopPeriodic() {
+void Robot::TeleopPeriodic() {
     // Calculate drivetrain commands from Joystick values
-    auto forward =
-        -1.0 * controller.GetLeftY() * constants::Swerve::kMaxLinearSpeed;
-    auto strafe =
-        -1.0 * controller.GetLeftX() * constants::Swerve::kMaxLinearSpeed;
-    auto turn =
-        -1.0 * controller.GetRightX() * constants::Swerve::kMaxAngularSpeed;
+    auto forward = 0.0;
+    auto strafe = 0.0;
+    auto turn = 0.0;
 
     bool targetVisible = false;
     double targetYaw = 0.0;
@@ -190,10 +191,20 @@ void Robot::TeleopInit() {
     turn =
         -1.0 * targetYaw * VISION_TURN_kP * constants::Swerve::kMaxAngularSpeed;
     }
-
-    // Command drivetrain motors based on target speeds
-    drivetrain.Drive(forward, strafe, turn);
+    swerve::requests::FieldCentric drive = swerve::requests::FieldCentric{}
+        .WithDeadband(MaxSpeedConst * 0.1).WithRotationalDeadband(MaxAngularRateConst * 0.1) // Add a 10% deadband
+        .WithDriveRequestType(swerve::DriveRequestType::OpenLoopVoltage);
+       // and Y is defined as to the left according to WPILib convention.
+    drivetrain.SetDefaultCommand(
+        // Drivetrain will execute this command periodically
+        drivetrain.ApplyRequest([drive, forward, strafe, turn]() -> auto&& {
+            return drive.WithVelocityX(forward.value()) // Drive forward with negative Y (forward)
+                .WithVelocityY(strafe.value()) // Drive left with negative X (left)
+                .WithRotationalRate(turn.value()); // Drive counterclockwise with negative X (left)
+        })
+    );
 }
+
 void Robot::TeleopExit() {}
 
 void Robot::TestInit() {
