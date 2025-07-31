@@ -189,7 +189,7 @@ void Robot::AutonomousPeriodic() {
         .WithRotationalRate(rot));  // Drive counterclockwise with negative X (left)
 }
 
-}
+
 void Robot::AutonomousExit() {}
 
 void Robot::TeleopInit() {
