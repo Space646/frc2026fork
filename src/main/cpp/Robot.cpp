@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Robot.h"
-#include <frc2/command/CommandScheduler.h>
 #include <generated/TunerConstants.h>
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <ctre/phoenix6/swerve/impl/SwerveModuleImpl.hpp>
