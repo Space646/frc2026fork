@@ -179,13 +179,16 @@ void Robot::AutonomousPeriodic() {
     // toward the tag.
     turn =
         -1.0 * targetYaw * VISION_TURN_kP * constants::Swerve::kMaxAngularSpeed.value();
-  }
+    }
+    auto velX = forward * 1_mps;
+    auto velY = strafe * 1_mps;
+    auto rot = turn * 1_rad_per_s;
     drivetrain.SetDefaultCommand(
         // Drivetrain will execute this command periodically
-        drivetrain.ApplyRequest([this, forward, strafe, turn]() -> auto&& {
-            return drive.WithVelocityX(forward.value())  // Drive forward with negative Y (forward)
-                .WithVelocityY(strafe.value())  // Drive left with negative X (left)
-                .WithRotationalRate(turn.value());  // Drive counterclockwise with negative X (left)
+        drivetrain.ApplyRequest([this, velX, velY, rot]() -> auto&& {
+            return drive.WithVelocityX(velX)  // Drive forward with negative Y (forward)
+                .WithVelocityY(velY)  // Drive left with negative X (left)
+                .WithRotationalRate(rot);  // Drive counterclockwise with negative X (left)
         })
     );
 }
