@@ -80,7 +80,7 @@ private:
     subsystems::CommandSwerveDrivetrain drivetrain = TunerConstants::CreateDrivetrain(); //I need help with this; I have absolutely no idea how to connect this
     VisionSim vision{&camera};
     frc::XboxController controller{0};
-    static constexpr double VISION_TURN_kP = 0.01;
+    static constexpr double VISION_TURN_kP = 0.005;
 
 public:
     Robot();
