@@ -178,9 +178,10 @@ void Robot::AutonomousPeriodic() {
     auto velY = strafe * 1_mps;
     auto rot = turn * 1_rad_per_s;
     drivetrain.SetControl(
-        drive.WithVelocityX(velX)  // Drive forward with negative Y (forward)
-        .WithVelocityY(velY)  // Drive left with negative X (left)
-        .WithRotationalRate(rot));  // Drive counterclockwise with negative X (left)
+        drive.WithVelocityX(3_mps)  // Drive forward with negative Y (forward)
+        .WithVelocityY(0_mps)  // Drive left with negative X (left)
+        .WithRotationalRate(4_rad_per_s
+        ));  // Drive counterclockwise with negative X (left)
 }
 }
 
